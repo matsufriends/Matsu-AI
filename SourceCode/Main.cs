@@ -60,7 +60,6 @@ public class Main : MonoBehaviour {
     private bool isProcessing = false;
     private bool isReset = false;
     private float timeToTook = 0;
-    private string putLog = "";
 
     void Start() {
         if (redMaterial == null || blueMaterial == null || mouseMaterial == null || lineMaterial == null) {
@@ -74,7 +73,6 @@ public class Main : MonoBehaviour {
         }
 
         console = gameObject.GetComponent<Console>();
-        Core.groupMergeK = 1.5f;
         console.AllReset();
         mainTransform = transform;
         Cursor.visible = false;
@@ -91,26 +89,6 @@ public class Main : MonoBehaviour {
         blueMom = new List<Dot>();
         redGroupList = new List<Group>();
         blueGroupList = new List<Group>();
-        DefinedPut();
-    }
-
-    void DefinedPut() {
-        /*
-        for (int i=0;i<250;i++) {
-            RandomPut(0);
-        }
-        UnityEngine.Debug.Log(putLog);
-        */
-
-        //100
-        // DP(369, 393, true); DP(176, -429, false); DP(-110, 26, false); DP(289, 409, true); DP(286, 296, false); DP(-312, 330, false); DP(90, -245, true); DP(305, 209, false); DP(-487, -188, true); DP(-376, -8, true); DP(47, -440, false); DP(-829, -81, true); DP(-619, -101, false); DP(-394, -346, false); DP(-733, -96, true); DP(-91, 442, false); DP(-594, 491, true); DP(-360, -200, true); DP(419, 237, false); DP(-117, -484, false); DP(-767, 356, true); DP(-528, 321, true); DP(-784, -230, true); DP(-596, -215, false); DP(-622, 23, true); DP(-662, 267, true); DP(-870, -371, false); DP(-106, 127, true); DP(-487, 64, false); DP(31, 482, true); DP(-824, -475, true); DP(-259, 227, false); DP(-850, -314, true); DP(323, -58, false); DP(-37, -494, false); DP(-9, -208, false); DP(80, 157, true); DP(-633, 169, false); DP(-139, 274, true); DP(-248, 475, true); DP(378, -311, true); DP(388, -61, false); DP(327, -231, true); DP(-214, -282, true); DP(-876, 385, true); DP(163, -12, false); DP(213, 82, false); DP(-436, 275, false); DP(-911, -152, false); DP(-846, 149, true); DP(-629, 440, false); DP(339, 110, false); DP(-406, 428, false); DP(-694, -261, true); DP(-751, -284, false); DP(-139, -146, true); DP(-359, -454, true); DP(-689, 45, true); DP(-675, 340, false); DP(31, 228, false); DP(-155, -345, true); DP(-23, 33, false); DP(-431, -264, false); DP(171, 269, true); DP(85, -97, true); DP(-27, -367, true); DP(-159, 194, false); DP(96, 481, true); DP(55, 390, true); DP(206, 459, true); DP(-709, 127, false); DP(-498, 172, false); DP(-324, -377, true); DP(403, 463, true); DP(-324, 203, false); DP(-165, -12, false); DP(-273, -8, false); DP(-862, 485, false); DP(261, -467, false); DP(278, -156, false); DP(-337, -73, true); DP(-441, 122, false); DP(-82, -73, false); DP(304, 44, false); DP(-346, -295, true); DP(24, -299, false); DP(-521, -384, false); DP(-28, 288, true); DP(350, -142, false); DP(-880, 284, true); DP(7, 116, false); DP(175, -263, true); DP(138, 121, true); DP(-916, 179, false); DP(-758, 180, true); DP(72, -7, true); DP(-771, 484, false); DP(-587, 85, false); DP(-162, -218, true); DP(-743, 245, false);
-
-        //200
-        DP(-728, 216, true); DP(249, 37, false); DP(-644, -367, true); DP(1, 315, true); DP(-518, -196, false); DP(-193, 153, false); DP(-738, 306, true); DP(-566, -388, false); DP(382, -14, false); DP(-635, 221, true); DP(-360, 304, false); DP(-396, 436, false); DP(287, -103, false); DP(-285, 138, false); DP(-912, -423, false); DP(122, -98, false); DP(-730, -393, true); DP(-913, 128, true); DP(242, -281, false); DP(-323, 88, false); DP(194, 483, true); DP(311, -460, false); DP(-452, 160, false); DP(-14, -296, false); DP(-720, -60, false); DP(-74, 300, true); DP(-38, -77, true); DP(-235, -393, true); DP(362, -398, false); DP(-44, -380, true); DP(29, 234, true); DP(-660, 285, false); DP(-555, -76, true); DP(205, -83, false); DP(-206, 448, false); DP(-813, -465, true); DP(-167, -257, true); DP(-399, 130, false); DP(101, -214, true); DP(-745, -249, false); DP(-326, -203, true); DP(-27, 494, true); DP(43, -44, true); DP(-334, -16, false); DP(-916, -19, false); DP(242, -35, false); DP(117, -345, false); DP(377, -128, true); DP(-875, 235, false); DP(-359, -129, false); DP(134, -437, true); DP(-668, -106, true); DP(348, 97, false); DP(425, 156, true); DP(-773, 423, false); DP(-646, 75, false); DP(33, -424, false); DP(-843, 97, false); DP(-483, -275, true); DP(-90, 196, false); DP(-423, 354, true); DP(-505, 462, false); DP(117, 258, true); DP(-480, -58, false); DP(17, -105, false); DP(-126, 65, false); DP(360, 258, false); DP(-531, 404, false); DP(267, 359, true); DP(-181, 224, false); DP(-173, -413, false); DP(-246, 380, false); DP(-66, -454, true); DP(-698, 424, true); DP(-148, -333, true); DP(-588, -237, true); DP(9, 116, false); DP(-381, -329, false); DP(-587, -128, false); DP(-528, 222, false); DP(-917, -86, true); DP(-737, 62, true); DP(131, -16, false); DP(-175, 23, true); DP(-828, -39, true); DP(-915, -295, true); DP(-554, 53, true); DP(-805, -378, false); DP(-125, 364, true); DP(-145, -69, true); DP(-284, -56, false); DP(-327, -397, false); DP(-150, -147, false); DP(60, 470, false); DP(228, -484, false); DP(-825, 342, true); DP(-603, 458, false); DP(-160, 286, true); DP(-293, -467, true); DP(207, -405, true); DP(-569, 276, false); DP(387, -310, true); DP(137, 438, false); DP(-182, 345, true); DP(-634, 365, false); DP(-642, -33, false); DP(-648, -219, true); DP(-325, 391, true); DP(-832, -197, true); DP(60, 68, true); DP(270, 256, true); DP(243, 124, true); DP(378, -206, false); DP(206, 257, false); DP(-33, -169, true); DP(-257, -185, false); DP(-617, -457, false); DP(-891, 466, true); DP(172, -200, true); DP(-406, -403, false); DP(379, -493, true); DP(-583, 168, true); DP(355, 450, false); DP(19, 17, false); DP(296, -357, false); DP(-661, 475, false); DP(286, 443, true); DP(-396, 496, true); DP(-489, -466, false); DP(279, -217, false); DP(218, 316, true); DP(-776, -91, true); DP(130, -283, true); DP(-755, -6, false); DP(-19, 377, false); DP(296, 169, true); DP(-865, 408, false); DP(-292, 449, true); DP(-503, 300, true); DP(-394, -203, true); DP(413, -433, false); DP(-920, -153, false); DP(333, 393, true); DP(-426, 75, false); DP(-484, 107, true); DP(-749, -494, false); DP(-65, 83, true); DP(157, 330, true); DP(326, 318, true); DP(-805, 202, true); DP(-902, 47, false); DP(78, 403, false); DP(-409, -30, false); DP(11, -228, false); DP(-696, -162, true); DP(421, 468, true); DP(-283, -129, true); DP(-204, -473, false); DP(169, 188, false); DP(-557, -464, true); DP(-265, 20, true); DP(-431, 275, false); DP(54, -324, true); DP(-868, -369, true); DP(191, 61, true); DP(-717, 126, true); DP(-130, 144, false); DP(-274, 234, false); DP(313, -20, false); DP(-237, -281, true); DP(418, 361, false); DP(-351, 189, false); DP(-131, -489, true); DP(239, 192, false); DP(-93, -168, false); DP(38, -174, true); DP(-287, -352, false); DP(-823, 269, true); DP(-377, 244, true); DP(-814, -276, false); DP(-221, -58, false); DP(-912, -233, false); DP(-497, -406, true); DP(-742, 499, true); DP(-258, 298, false); DP(-138, 470, false); DP(196, -144, true); DP(-884, -480, true); DP(195, 411, false); DP(-303, -288, true); DP(-593, -328, true); DP(428, 274, false); DP(-31, 175, true); DP(-409, -486, false); DP(-409, -267, false); DP(-674, -427, true); DP(125, 107, true); DP(-216, -121, false); DP(-848, -106, false); DP(-858, 168, false);
-    }
-
-    void DP(int x,int y,bool isRed) {
-        Put(x,y,isRed);
     }
 
     void Update() {
@@ -236,12 +214,6 @@ public class Main : MonoBehaviour {
     }
 
     void Put(float in_X, float in_Y, bool in_IsRed) {
-        if (in_IsRed) {
-            putLog += "DP(" + in_X + "," + in_Y + ",true);";
-        } else {
-            putLog += "DP(" + in_X + "," + in_Y + ",false);";
-        }
-        
         if (!isProcessing) {
             Vector2 tmp_Pos = new Vector2(in_X, in_Y);
             if (in_IsRed) {

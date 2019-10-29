@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Core {
 
-    public static float groupMergeK = 2;//2
+    public static float groupMergeK = 0;
     private static int lineNum = 1;
     private static int redGroupNum = 1;
     private static int blueGroupNum = 1;
@@ -469,6 +469,7 @@ public static class Core {
                 in_NewGroupList.Add(in_BaseGroupList[i]);
             } else {
                 in_AllOK = false;
+                Main.console.AddText(in_BaseGroupList[i].GetDot(0).pos+","+ in_BaseGroupList[i].GetDot(1).pos+"→単集合x2");
                 in_BaseGroupList[i].GetDot(0).LeaveGroup();
                 in_BaseGroupList[i].GetDot(1).LeaveGroup();
                 in_BaseGroupList[i].GetDot(0).group.RemoveAllLine();

@@ -74,7 +74,8 @@ public class Console : MonoBehaviour {
         ResetText();
         RemoveDotStatus();
         AddText("初期化しました");
-        AddText("MergeK = "+Core.groupMergeK+" Radious = "+MeshMake.dotRadious+" Vertices = "+MeshMake.mesh_verticies);
+        AddText("MergeK・Radious・Verticesはリセット時適応");
+        AddText("MergeK="+Core.groupMergeK+" Radious="+MeshMake.dotRadious+" Vertices="+MeshMake.mesh_verticies);
     }
 
 }
