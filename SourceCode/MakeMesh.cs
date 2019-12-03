@@ -13,18 +13,18 @@ public static class MeshMake {
         if (is_HorV) {//縦か横の直線
             if (in_Angle == 0) {//横の直線
                 Vector3[] tmp_vertices = new Vector3[] {
-                    new Vector2(Main.left,in_Height+LineWeight),
-                    new Vector2(Main.left,in_Height-LineWeight),
-                    new Vector2(Main.right,in_Height-LineWeight),
-                    new Vector2(Main.right,in_Height+LineWeight)
+                    new Vector2(Main.display_Left,in_Height+LineWeight),
+                    new Vector2(Main.display_Left,in_Height-LineWeight),
+                    new Vector2(Main.display_Right,in_Height-LineWeight),
+                    new Vector2(Main.display_Right,in_Height+LineWeight)
                 };
                 re_Mesh.vertices = tmp_vertices;
             } else {//縦の直線
                 Vector3[] tmp_vertices = new Vector3[] {
-                    new Vector2(in_Height-LineWeight,Main.up),
-                    new Vector2(in_Height-LineWeight,Main.down),
-                    new Vector2(in_Height+LineWeight,Main.down),
-                    new Vector2(in_Height+LineWeight,Main.up)
+                    new Vector2(in_Height-LineWeight,Main.display_Up),
+                    new Vector2(in_Height-LineWeight,Main.display_Down),
+                    new Vector2(in_Height+LineWeight,Main.display_Down),
+                    new Vector2(in_Height+LineWeight,Main.display_Up)
                 };
                 re_Mesh.vertices = tmp_vertices;
             }
@@ -44,16 +44,16 @@ public static class MeshMake {
     }
 
     private static Vector2 LineEdgePos(float in_Angle, float in_Height, bool isLeft) {
-        float judgeX = Main.right;
+        float judgeX = Main.display_Right;
         if (isLeft) {
-            judgeX = Main.left;
+            judgeX = Main.display_Left;
         }
 
         float tmp_y = in_Angle * judgeX + in_Height;
-        if (Main.up < tmp_y) {//画面上部
-            return new Vector2((Main.up - in_Height) / in_Angle, Main.up);
-        } else if (tmp_y < Main.down) {//画面下部
-            return new Vector2((Main.down - in_Height) / in_Angle, Main.down);
+        if (Main.display_Up < tmp_y) {//画面上部
+            return new Vector2((Main.display_Up - in_Height) / in_Angle, Main.display_Up);
+        } else if (tmp_y < Main.display_Down) {//画面下部
+            return new Vector2((Main.display_Down - in_Height) / in_Angle, Main.display_Down);
         } else {//画面左部/右部
             return new Vector2(judgeX, tmp_y);
         }
@@ -106,10 +106,10 @@ public static class MeshMake {
         List<Vector2> tmp_PosList = new List<Vector2>();
         List<int[]> tmp_LineNumList = new List<int[]>();
         List<Vector2> tmp_SafePosList = new List<Vector2>();
-        tmp_PosList.Add(new Vector2(Main.left,Main.up));
-        tmp_PosList.Add(new Vector2(Main.left,Main.down));
-        tmp_PosList.Add(new Vector2(Main.right,Main.up));
-        tmp_PosList.Add(new Vector2(Main.right,Main.down));
+        tmp_PosList.Add(new Vector2(Main.display_Left,Main.display_Up));
+        tmp_PosList.Add(new Vector2(Main.display_Left,Main.display_Down));
+        tmp_PosList.Add(new Vector2(Main.display_Right,Main.display_Up));
+        tmp_PosList.Add(new Vector2(Main.display_Right,Main.display_Down));
         tmp_LineNumList.Add(new int[2] { 0, 0 });
         tmp_LineNumList.Add(new int[2] { 0, 0 });
         tmp_LineNumList.Add(new int[2] { 0, 0 });
@@ -161,7 +161,7 @@ public static class MeshMake {
         } else {
             float tmp_X = (in_ALine.height - in_BLine.height) / (in_BLine.angle - in_ALine.angle);
             float tmp_Y = (in_ALine.height * in_BLine.angle - in_BLine.height * in_ALine.angle) / (in_BLine.angle - in_ALine.angle);
-            if (Main.left < tmp_X && tmp_X < Main.right && Main.down < tmp_Y && tmp_Y < Main.up) {
+            if (Main.display_Left < tmp_X && tmp_X < Main.display_Right && Main.display_Down < tmp_Y && tmp_Y < Main.display_Up) {
                 ref_PosList.Add(new Vector2(tmp_X, tmp_Y));
             }
         }
@@ -170,12 +170,12 @@ public static class MeshMake {
     private static void VerticalLineIntersectionPos(Line in_VerticalLine, Line in_ALine, ref List<Vector2> ref_PosList) {
         if (in_VerticalLine.angle == 0) {//Aが横の直線
             float tmp_X = (in_VerticalLine.height - in_ALine.height) / in_ALine.angle;
-            if (Main.left < tmp_X && tmp_X < Main.right) {
+            if (Main.display_Left < tmp_X && tmp_X < Main.display_Right) {
                 ref_PosList.Add(new Vector2(tmp_X, in_VerticalLine.height));
             }
         } else {//Aが縦の直線
             float tmp_Y = in_VerticalLine.height * in_ALine.angle + in_ALine.height;
-            if (Main.down < tmp_Y && tmp_Y < Main.up) {
+            if (Main.display_Down < tmp_Y && tmp_Y < Main.display_Up) {
                 ref_PosList.Add(new Vector2(in_VerticalLine.height, tmp_Y));
             }
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Core {
 
-    public static float groupMergeK = 0;
+    public static float groupMergeK = 2;
     private static int lineNum = 1;
     private static int redGroupNum = 1;
     private static int blueGroupNum = 1;
@@ -448,7 +448,6 @@ public static class Core {
                     in_AllOK = false;
                     tmp_GroupOK = false;
                 } else if (tmp_SafeList.Count == 0) {//全てアウト
-                    Debug.Log("こんなとこ呼ばれないと思う");
                     for (int k = 0; k < tmp_SafeList.Count; k++) {
                         tmp_SafeList[k].LeaveGroup();
                     }

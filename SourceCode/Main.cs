@@ -41,6 +41,9 @@ public class Main : MonoBehaviour {
     [SerializeField]
     private Text totalValue = null;
 
+    [SerializeField]
+    private RectTransform panel = null;
+
 
     public static Console console;
     private Mesh red_dotMesh;
@@ -53,13 +56,13 @@ public class Main : MonoBehaviour {
     private static List<Group> blueGroupList;
 
     public static Transform mainTransform;
-    public static float up;
-    public static float left;
-    public static float right;
-    public static float down;
+    public static float display_Up;
+    public static float display_Left;
+    public static float display_Right;
+    public static float display_Down;
     private bool isProcessing = false;
     private bool isReset = false;
-    private float timeToTook = 0;
+    private float totalProcessTime = 0;
 
     void Start() {
         if (redMaterial == null || blueMaterial == null || mouseMaterial == null || lineMaterial == null) {
@@ -76,11 +79,11 @@ public class Main : MonoBehaviour {
         console.AllReset();
         mainTransform = transform;
         Cursor.visible = false;
-
-        up = Screen.currentResolution.height / 2 - 10 - MeshMake.dotRadious;
-        down = -Screen.currentResolution.height / 2 + 10 + MeshMake.dotRadious;
-        left = -Screen.currentResolution.width / 2 + 10 + MeshMake.dotRadious;
-        right = Screen.currentResolution.width / 2 - 500 - MeshMake.dotRadious;
+        float tmp_Aspect_k = 990 / panel.rect.height;
+        display_Up = 530 * tmp_Aspect_k;
+        display_Down = -530 * tmp_Aspect_k;
+        display_Left = -955 * tmp_Aspect_k;
+        display_Right = 460 * tmp_Aspect_k;
 
         red_dotMesh = new Mesh();
         blue_dotMesh = new Mesh();
@@ -94,8 +97,8 @@ public class Main : MonoBehaviour {
     void Update() {
         Vector2 tmp_MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        bool tmp_IsMouseSafe = CanPut(tmp_MousePos);
-        if (tmp_IsMouseSafe) {
+        bool tmp_IsCanPut = CanPut(tmp_MousePos);
+        if (tmp_IsCanPut) {
             mouseMaterial.color = Color.black;
         } else {
             mouseMaterial.color = Color.green;
@@ -113,7 +116,7 @@ public class Main : MonoBehaviour {
                     InputMergeK.Select();
                 } else if (InputVertices.isFocused) {
                     InputRadious.Select();
-                } else{
+                } else {
                     InputX.Select();
                 }
             } else {
@@ -139,7 +142,7 @@ public class Main : MonoBehaviour {
             }
         }
 
-        if (tmp_IsMouseSafe) {
+        if (tmp_IsCanPut) {
             if (Input.GetMouseButtonDown(0)) {//左クリック
                 Put(tmp_MousePos.x, tmp_MousePos.y, true);
             }
@@ -193,11 +196,31 @@ public class Main : MonoBehaviour {
         }
     }
 
+    private bool Nijikansu(float x, float y) {
+        float a = (x + 250) * 0.005f;
+        float b = y * 0.01f;
+        return a * a - 3 > b;
+    }
+
+    private bool Sanjikansu(float x, float y) {
+        float a = (x + 250) * 0.004f;
+        float b = y * 0.01f;
+        return a * a * a - a > b;
+    }
+
+    /*
+    float a = (tmp_MousePos.x + 250)*0.004f;
+    // float a = (tmp_MousePos.x + 250)*0.005f;
+     float b = tmp_MousePos.y*0.01f;
+    Put(tmp_MousePos.x,tmp_MousePos.y,a*a*a-a>b);
+    //Put(tmp_MousePos.x,tmp_MousePos.y,a*a-3>b);
+     */
+
     private bool CanPut(Vector2 in_PutPos) {
-        if (in_PutPos.x < left || right < in_PutPos.x) {
+        if (in_PutPos.x < display_Left || display_Right < in_PutPos.x) {
             return false;
         }
-        if (in_PutPos.y < down || up < in_PutPos.y) {
+        if (in_PutPos.y < display_Down || display_Up < in_PutPos.y) {
             return false;
         }
         for (int i = 0; i < redMom.Count; i++) {
@@ -254,8 +277,8 @@ public class Main : MonoBehaviour {
 
         isProcessing = false;
         sw.Stop();
-        timeToTook += (float)sw.ElapsedMilliseconds;
-        console.AddText("処理時間:" + sw.ElapsedMilliseconds + "ms" + " 合計処理時間:" + timeToTook + "ms");
+        totalProcessTime += (float)sw.ElapsedMilliseconds;
+        console.AddText("処理時間:" + sw.ElapsedMilliseconds + "ms" + " 合計処理時間:" + totalProcessTime + "ms");
         redValue.text = redMom.Count + "コ";
         blueValue.text = blueMom.Count + "コ";
         totalValue.text = "計" + (redMom.Count + blueMom.Count) + "コ";
@@ -304,7 +327,6 @@ public class Main : MonoBehaviour {
             List<Group> tmp_blueGroupList = new List<Group>();
             Core.AdjustStraddlePerColor(redGroupList, tmp_redGroupList, redMom, blueMom, ref tmp_AllOK, true);
             Core.AdjustStraddlePerColor(blueGroupList, tmp_blueGroupList, blueMom, redMom, ref tmp_AllOK, false);
-
             if (!tmp_AllOK) {
                 isReset = true;
                 redGroupList = tmp_redGroupList;
@@ -315,7 +337,7 @@ public class Main : MonoBehaviour {
                 StraddleGroup(0);
             }
         } else {
-            Core.Exit("SraddleGroup has Heavy Processing");
+            Core.Exit("SraddleGroup has too Heavy Processing");
         }
     }
 
@@ -335,7 +357,7 @@ public class Main : MonoBehaviour {
                 BreakSoloGroup(in_Deep + 1);
             }
         } else {
-            Core.Exit("BreakSoloGroup has Heavy Processing");
+            Core.Exit("BreakSoloGroup has too Heavy Processing");
         }
     }
 
@@ -355,7 +377,7 @@ public class Main : MonoBehaviour {
     }
 
     public void AllReset() {
-        timeToTook = 0;
+        totalProcessTime = 0;
         red_dotMesh = new Mesh();
         blue_dotMesh = new Mesh();
         redMom = new List<Dot>();
@@ -397,8 +419,8 @@ public class Main : MonoBehaviour {
 
     public void RandomPut(int in_Deep) {
         if (in_Deep < 10) {
-            int X = Random.Range((int)left, (int)right);
-            int Y = Random.Range((int)down, (int)up);
+            int X = Random.Range((int)display_Left, (int)display_Right);
+            int Y = Random.Range((int)display_Down, (int)display_Up);
             bool RED = Random.Range(0, 2) == 0;
             if (CanPut(new Vector2(X, Y))) {
                 Put(X, Y, RED);

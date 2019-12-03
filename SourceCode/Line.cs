@@ -78,35 +78,35 @@ public class Line {
         if (isHorV) {//縦か横
             if (angle==0) {//横の直線
                 if (in_IsUorL) {//左側
-                    return new Vector2(Main.left,height);
+                    return new Vector2(Main.display_Left,height);
                 } else {//右側
-                    return new Vector2(Main.right, height);
+                    return new Vector2(Main.display_Right, height);
                 }
             } else {//縦の直線
                 if (in_IsUorL) {//上側
-                    return new Vector2(height,Main.up);
+                    return new Vector2(height,Main.display_Up);
                 } else {//下側
-                    return new Vector2(height,Main.down);
+                    return new Vector2(height,Main.display_Down);
                 }
             }
         } else {
             if (in_IsUorL) {//中心より左側
-                float tmp_y = angle * Main.left + height;
-                if (Main.down<tmp_y&&tmp_y<Main.up) {//左端
-                    return new Vector2(Main.left,tmp_y);
-                } else if (tmp_y < Main.down) {//下側
-                    return new Vector2((Main.down-height)/angle,Main.down);
+                float tmp_y = angle * Main.display_Left + height;
+                if (Main.display_Down<tmp_y&&tmp_y<Main.display_Up) {//左端
+                    return new Vector2(Main.display_Left,tmp_y);
+                } else if (tmp_y < Main.display_Down) {//下側
+                    return new Vector2((Main.display_Down-height)/angle,Main.display_Down);
                 } else {//上側
-                    return new Vector2((Main.up - height) / angle, Main.up);
+                    return new Vector2((Main.display_Up - height) / angle, Main.display_Up);
                 }
             } else {//中心より右側
-                float tmp_y = angle * Main.right + height;
-                if (Main.down < tmp_y && tmp_y < Main.up) {//→端
-                    return new Vector2(Main.right, tmp_y);
-                } else if (tmp_y < Main.down) {//下側
-                    return new Vector2((Main.down - height) / angle, Main.down);
+                float tmp_y = angle * Main.display_Right + height;
+                if (Main.display_Down < tmp_y && tmp_y < Main.display_Up) {//→端
+                    return new Vector2(Main.display_Right, tmp_y);
+                } else if (tmp_y < Main.display_Down) {//下側
+                    return new Vector2((Main.display_Down - height) / angle, Main.display_Down);
                 } else {//上側
-                    return new Vector2((Main.up - height) / angle, Main.up);
+                    return new Vector2((Main.display_Up - height) / angle, Main.display_Up);
                 }
             }
         }
